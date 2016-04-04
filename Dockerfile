@@ -45,6 +45,14 @@ COPY etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg
 WORKDIR /usr/local/src
 RUN rm -rf /usr/local/src/haproxy-1.6.4
 
+# Configure rsyslog.
+RUN sed -ri 's/^#$ModLoad imudp/$ModLoad imudp/' /etc/rsyslog.conf && \
+    sed -ri 's/^#$UDPServerRun 514/$UDPServerRun 514/' /etc/rsyslog.conf
+
+# Configure haproxy log.
+RUN mkdir -p /var/log/haproxy
+COPY etc/rsyslog.d/haproxy.conf /etc/rsyslog.d/haproxy.conf
+
 # Configure container
 USER root
 WORKDIR /root
@@ -52,4 +60,4 @@ WORKDIR /root
 VOLUME ["/etc/haproxy/"]
 
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["/etc/init.d/haproxy start && /bin/bash"]
+CMD ["/etc/init.d/rsyslog start && /etc/init.d/haproxy start && /bin/bash"]
