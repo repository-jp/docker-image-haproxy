@@ -6,7 +6,7 @@ LABEL name="HAProxy Image" \
       distribution="centos" \
       centos-version="6.6" \
       haproxy-version="1.6.4" \
-      vendor="REPOSIORY <http://www.repositories.jp>" \
+      vendor="REPOSITORY <http://www.repositories.jp>" \
       license="MIT"
 
 USER root
